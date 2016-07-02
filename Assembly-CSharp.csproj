@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E5C00A68-E6DB-FEA3-938C-F34D364EA738}</ProjectGuid>
+    <ProjectGuid>{B9BDDE1C-F513-F270-209D-943D1829F0D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,14 +45,91 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Attacker.cs" />
+     <Compile Include="Assets\Scripts\Bullet.cs" />
+     <Compile Include="Assets\Scripts\BuyUnitButton.cs" />
+     <Compile Include="Assets\Scripts\BuyUnitConfig.cs" />
+     <Compile Include="Assets\Scripts\BuyUnitMenu.cs" />
+     <Compile Include="Assets\Scripts\BuyUnitStatus.cs" />
+     <Compile Include="Assets\Scripts\DamageInfo.cs" />
+     <Compile Include="Assets\Scripts\Dimmer.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Extensions.cs" />
+     <Compile Include="Assets\Scripts\ExamSeeker.cs" />
+     <Compile Include="Assets\Scripts\ExamSheet.cs" />
+     <Compile Include="Assets\Scripts\Factions\EnemyFaction.cs" />
+     <Compile Include="Assets\Scripts\Factions\Faction.cs" />
+     <Compile Include="Assets\Scripts\Factions\FactionManager.cs" />
+     <Compile Include="Assets\Scripts\Factions\FactionMember.cs" />
+     <Compile Include="Assets\Scripts\Factions\FactionType.cs" />
+     <Compile Include="Assets\Scripts\Factions\PlayerFaction.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameUIManager.cs" />
+     <Compile Include="Assets\Scripts\GlobalManager.cs" />
+     <Compile Include="Assets\Scripts\HasLoot.cs" />
      <Compile Include="Assets\Scripts\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\IHasSpeed.cs" />
+     <Compile Include="Assets\Scripts\ImprovedPolygonCollider2D.cs" />
+     <Compile Include="Assets\Scripts\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\ObjectManager.cs" />
+     <Compile Include="Assets\Scripts\ParticleSystemHelper.cs" />
+     <Compile Include="Assets\Scripts\PathFollower.cs" />
+     <Compile Include="Assets\Scripts\PlayerGameState.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
+     <Compile Include="Assets\Scripts\ProjectileCollisionTrigger2D.cs" />
+     <Compile Include="Assets\Scripts\Question.cs" />
+     <Compile Include="Assets\Scripts\Questions\QuestionSet.cs" />
+     <Compile Include="Assets\Scripts\Questions\QuizAnswerButton.cs" />
+     <Compile Include="Assets\Scripts\Questions\QuizDialog.cs" />
+     <Compile Include="Assets\Scripts\Questions\QuizQuestion.cs" />
+     <Compile Include="Assets\Scripts\RepeatSceneButton.cs" />
      <Compile Include="Assets\Scripts\RepeatSpriteBoundary.cs" />
+     <Compile Include="Assets\Scripts\RequireLevel.cs" />
+     <Compile Include="Assets\Scripts\Selectable.cs" />
+     <Compile Include="Assets\Scripts\Serialization\SerializationHelper.cs" />
+     <Compile Include="Assets\Scripts\Spells\Aura.cs" />
+     <Compile Include="Assets\Scripts\Spells\AuraEffectHandler.cs" />
+     <Compile Include="Assets\Scripts\Spells\AuraEffects\Stun.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellCast.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellCastContext.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellCaster.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellCasterAI.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\AuraEffect.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\AuraEffectCollection.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\AuraTemplate.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\CastPhaseTemplate.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\ImpactPhaseTemplate.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\ProjectilePhaseTemplate.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\Spell.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\SpellEffect.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\SpellEffectCollection.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\SpellPhaseTemplate.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellData\SpellTargetSettings.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellEffects\DamageEffect.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellManager.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellPhase.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellPhaseContext.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellTargetCollection.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetCollectors\CasterCollector.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetCollectors\CasterSelectedPositionCollector.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetCollectors\CasterSelectedUnitCollector.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetCollectors\ContextOwnerCollector.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetCollectors\UnitsAroundContextOwner2DCollector.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetFilters\FriendlyFilter.cs" />
+     <Compile Include="Assets\Scripts\Spells\TargetFilters\HostileFilter.cs" />
+     <Compile Include="Assets\Scripts\StatsMenu.cs" />
+     <Compile Include="Assets\Scripts\StatsMenuData.cs" />
+     <Compile Include="Assets\Scripts\StickToTarget.cs" />
+     <Compile Include="Assets\Scripts\SwitchSceneButton.cs" />
      <Compile Include="Assets\Scripts\Tower.cs" />
      <Compile Include="Assets\Scripts\TowerPlatform.cs" />
+     <Compile Include="Assets\Scripts\Unit.cs" />
+     <Compile Include="Assets\Scripts\UnitManager.cs" />
+     <Compile Include="Assets\Scripts\UnitSpawnAI.cs" />
+     <Compile Include="Assets\Scripts\Util\CoroutineUtility.cs" />
+     <Compile Include="Assets\Scripts\Util\Extensions.cs" />
+     <Compile Include="Assets\Scripts\Util\SceneUtility.cs" />
+     <Compile Include="Assets\Scripts\Util\ScriptableObjectUtil.cs" />
+     <Compile Include="Assets\Scripts\Util\TouchCameraController.cs" />
      <Compile Include="Assets\Scripts\Wave.cs" />
      <Compile Include="Assets\Scripts\WaveGenerator.cs" />
      <Compile Include="Assets\Scripts\WavePath.cs" />

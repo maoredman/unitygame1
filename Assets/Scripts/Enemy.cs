@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour {
     public float Health = 100;
     public float MaxDistanceToGoal = .1f;
     public float Speed = 5;
+	public float clickDamage = 10;
 
     public WavePath Path;
 
@@ -109,4 +110,15 @@ public class Enemy : MonoBehaviour {
             }
         }
     }
+
+	void OnMouseDown() {
+		Damage (clickDamage);
+		StartCoroutine(ChangeEnemyColor());
+	}
+
+	IEnumerator ChangeEnemyColor() {
+		this.GetComponent<Renderer>().material.color = Color.black;
+		yield return new WaitForSeconds(0.1f);
+		this.GetComponent<Renderer>().material.color = Color.white;
+	}
 }

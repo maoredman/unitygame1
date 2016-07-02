@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,26 +9,24 @@ public class WaveGenerator : MonoBehaviour {
 	/// Time between waves in seconds.
 	/// </summary>
 	public float DelayBetweenWaves = 30;
-
 	public WavePath Path;
-	
+	public WavePath.FollowDirection PathDirection;
 	public WaveTemplate[] WaveTemplates;
-
 	public Text InfoText;
 
-	List<Wave> _waves;
+	List<Wave> waves;
 
-	float _lastUpdate;
+	float lastUpdate;
 
 	public Wave CurrentWave {
 		get {
-			return _waves.LastOrDefault();
+			return waves.LastOrDefault();
 		}
 	}
 
 	public int CurrentWaveNumber {
 		get {
-			return _waves.Count+1;
+			return waves.Count+1;
 		}
 	}
 
@@ -37,11 +35,11 @@ public class WaveGenerator : MonoBehaviour {
 	/// </summary>
 	public WaveTemplate NextWaveTemplate {
 		get {
-			if (WaveTemplates.Length <= _waves.Count) {
+			if (WaveTemplates.Length <= waves.Count) {
 				// already spawned all waves
 				return null;
 			}
-			return WaveTemplates[_waves.Count];
+			return WaveTemplates[waves.Count];
 		}
 	}
 
@@ -66,7 +64,7 @@ public class WaveGenerator : MonoBehaviour {
 			Debug.LogError("WavePath is not set");
 		}
 
-		_waves = new List<Wave> ();
+		waves = new List<Wave> ();
 
 		ResetTimer ();
 	}
@@ -74,7 +72,7 @@ public class WaveGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// update all currently running waves
-		foreach (var wave in _waves) {
+		foreach (var wave in waves) {
 			wave.Update();
 		}
 
@@ -88,7 +86,7 @@ public class WaveGenerator : MonoBehaviour {
 
 	void UpdateWaveProgress() {
 		var now = Time.time;
-		var timeSinceLastUpdate = now - _lastUpdate;
+		var timeSinceLastUpdate = now - lastUpdate;
 
 		ShowText("Next wave: " + CurrentWaveNumber + " (" + (DelayBetweenWaves - timeSinceLastUpdate).ToString ("0") + "s)");
 		
@@ -99,21 +97,20 @@ public class WaveGenerator : MonoBehaviour {
 	
 	public void ResetTimer() {
 		// reset timer
-		_lastUpdate = Time.time;
+		lastUpdate = Time.time;
 	}
 	
 	// start next wave
 	public void StartNextWave() {
 		if (NextWaveTemplate == null) {
 			// all waves done!
-			GameManager.Instance.OnLastWave();
 			return;
 		}
 
 		// create new wave
 		var wave = new Wave (this);
 		wave.WaveTemplate = NextWaveTemplate;
-		_waves.Add (wave);
+		waves.Add (wave);
 
 		// spawn first enemy in new wave
 		wave.Start ();
@@ -123,12 +120,19 @@ public class WaveGenerator : MonoBehaviour {
 	
 	// start next enemy of given wave
 	public void SpawnNextEnemy(Wave wave) {
-		var enemyObject = Instantiate (wave.WaveTemplate.EnemyPrefab);
-		var enemy = enemyObject.GetComponent<Enemy> ();
-		enemy.InitEnemy (wave);
-		wave.Enemies.Add (enemy);
-		
-		// move enemy to starting position
-		enemy.transform.position = Path.FirstPoint.position;
+		var followerObj = (GameObject)Instantiate (wave.WaveTemplate.EnemyPrefab, transform.position, Quaternion.identity);
+		var follower = followerObj.GetComponent<PathFollower> ();
+		follower.InitFollower (wave);
+		wave.Enemies.Add (follower);
+
+		// add faction
+		FactionManager.SetFaction (followerObj, gameObject);
+
+//		// set color
+//		var renderer = GetComponent<SpriteRenderer> ();
+//		var followerRenderer = follower.GetComponent<SpriteRenderer> ();
+//		if (renderer != null) {
+//			followerRenderer.color = renderer.color;
+//		}
 	}
 }

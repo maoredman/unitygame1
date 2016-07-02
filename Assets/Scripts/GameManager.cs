@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 /**
- * Features:
- * Enemy spawning + following along path
- * Towers shooting
- * Enemy health, damage + death
+ * New Features:
+ * Credits system
+ * StatsMenu
  */
 
 /**
- * TODO: Game
- * Tower placement
- * Lives taken when Enemy makes it to the end of path	
- * Point + money system
- * Fix UI (see http://stackoverflow.com/questions/25477492/unity-4-6-how-to-scale-gui-elements-to-the-right-size-for-every-resolution)
- * Tower range
- * TowerTemplates
- * Tower upgrades
- * Solve problems to refill tower ammunition -> Problems = Coding- and design-related vocabulary exercises + maybe small-coding-problem solving
- * Replace dead enemies with decaying corpses
+ * TODO:
+ * Spell system
+ * Animations + Particles (e.g. https://www.assetstore.unity3d.com/en/#!/content/1745)
+ * Start menu
+ * Multiple levels + level selection
  */
 
 /// <summary>
@@ -27,36 +22,104 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	public enum GameStatus
 	{
-		Running,
-		Finished
+		Running = 1,
+		Won,
+		Lost
 	}
 
-	public static GameManager Instance;
+	public static GameManager Instance {
+		get;
+		private set;
+	}
 
+
+	#region Game Variables
+	[HideInInspector]
+	public float GameSceneSwitchDelay = 2;
+
+	[HideInInspector]
 	public GameStatus CurrentGameStatus = GameStatus.Running;
-	public WaveGenerator WaveGenerator;
+	
+	[HideInInspector]
+	public SceneSwitchConfig SceneAfterWin;
+	
+	[HideInInspector]
+	public SceneSwitchConfig SceneAfterLoss;
+	#endregion
 
-	public bool IsGameOver {
-		get { return CurrentGameStatus == GameStatus.Finished; }
-	}
 
 	public GameManager() {
 		Instance = this;
 	}
-
-	public void StartNextWave() {
-		WaveGenerator.StartNextWave ();
+	
+	public bool IsRunning {
+		get { return CurrentGameStatus == GameStatus.Running; }
 	}
 
-	public void OnLastWave() {
-
+	void Start() {
 	}
 
+	#region Public Methods
 	/// <summary>
-	/// This method is called when player has beaten all waves
+	/// Starts next wave on all existing WaveGenerators
 	/// </summary>
-	public void OnFinishedAllWaves() {
-		// TODO: End the game!
-		CurrentGameStatus = GameStatus.Finished;
+	public void StartNextWave() {
+		var waveGenerators = FindObjectsOfType(typeof(WaveGenerator));
+		foreach (var waveGenerator in waveGenerators) {
+			((WaveGenerator)waveGenerator).StartNextWave ();
+		}
 	}
+	#endregion
+
+
+	#region Game Events
+	public void WinGame() {
+		// mark level as finished
+		PlayerGameState.FinishedCurrentLevel ();
+		OnGameOverStart(GameStatus.Won, SceneAfterWin);
+	}
+	
+	public void LoseGame() {
+		OnGameOverStart(GameStatus.Lost, SceneAfterLoss);
+	}
+
+	public void ResetGameData() {
+		PlayerGameState.Data.Reset ();
+	}
+   	#endregion
+
+	void OnGameOverStart(GameStatus status, SceneSwitchConfig nextScene) {
+		CurrentGameStatus = status;
+
+		// slow down everything
+		Time.timeScale = 0.1f;
+		
+		if (nextScene != null) {
+			if (nextScene.SceneSwitchPrefab != null) {
+				Instantiate (nextScene.SceneSwitchPrefab);
+			}
+
+//			if (GameSceneSwitchDelay >= 0) {
+//				StartCoroutine(CoroutineUtility.DelaySeconds(GameSceneSwitchDelay * Time.timeScale, () => {
+//					EndGame (status, nextScene);
+//				}));
+//			}
+		}
+	}
+
+	void EndGame(GameStatus status, SceneSwitchConfig nextScene) {
+		if (nextScene.SceneName == null) {
+			Debug.LogError("Next scene not set for game status: " + status);
+			return;
+		}
+
+		Application.LoadLevel (nextScene.SceneName);
+	}
+}
+
+[System.Serializable]
+public class SceneSwitchConfig {
+	[HideInInspector]
+	public string SceneName;
+	public GameObject SceneSwitchPrefab;
 }
