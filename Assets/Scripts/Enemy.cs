@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
             return obj.GetComponent<Enemy>();
         }
         return null;
+
     }
 
 
